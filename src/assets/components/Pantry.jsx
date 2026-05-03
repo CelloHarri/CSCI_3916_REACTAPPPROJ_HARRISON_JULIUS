@@ -10,7 +10,8 @@ export default function Pantry() {
     const [items, setItems] = useState([]); //Array of Pantry Items
     const [form, setForm] = useState(BLANK); //Add/Edit Form
     const [editId, setEditId] = useState(null); //null is add mode, and item id is edit mode
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
+    const [search, setSearch] = useState(''); //Search filter string
     const nav = useNavigate();
 
     const loadItems = async () => {
@@ -59,7 +60,13 @@ export default function Pantry() {
     const handleDelete = async (id) => {
         await deletePantryItem(id);
         loadItems();
-    }
+    };
+
+    const handleAdjust = async (item, delta) => {
+        const newAmount = Math.max(0, item.amount + delta);
+        await updatePantryItem(item._id, { amount: newAmount });
+        loadItems();
+    };
 
     const logout = async () => {
         localStorage.removeItem('token');
@@ -68,14 +75,22 @@ export default function Pantry() {
 
     // Items where criticalAlert is true AND amount is at or below amountAlert
     const criticalItems = items.filter(item =>
-        item.criticalAlert && item.amountAlert != null && item.amount <= item.amountAlert
+        item.criticalAlert && item.amountAlert != null && item.amount < item.amountAlert
+    );
+
+    // Filter items by search query (name or category)
+    const filteredItems = items.filter(item =>
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.category.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
+
         <div className="pantry-page">
             <div className="pantry-header">
                 <h2>My Pantry</h2>
                 <button className="btn btn-secondary" onClick={logout}>Logout</button>
+                <title>My Pantry</title>
             </div>
 
             {criticalItems.map(item => (
@@ -85,6 +100,13 @@ export default function Pantry() {
             ))}
 
             {error && <p className="error">{error}</p>}
+
+            <input
+                className="search-bar"
+                placeholder="Search by name or category..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+            />
 
             <div className="pantry-form">
                 <h3>{editId ? 'Edit Item' : 'Add Item'}</h3>
@@ -120,12 +142,12 @@ export default function Pantry() {
             </div>
 
             <ul className="pantry-list">
-                {items.map(item => (
+                {filteredItems.map(item => (
                     <li key={item._id} className="pantry-item">
                         {item.imageUrl && <img src={item.imageUrl} alt={item.name} className="pantry-item-img" />}
                         <div className="pantry-item-info">
                             <strong>{item.name}</strong>
-                            {item.amountAlert != null && item.amount <= item.amountAlert && (
+                            {item.amountAlert != null && item.amount < item.amountAlert && (
                                 <span className="badge-low">&#9888; Low</span>
                             )}
                             <span>{item.category}</span>
@@ -133,6 +155,10 @@ export default function Pantry() {
                             {item.expirationDate && <span>Exp: {new Date(item.expirationDate).toLocaleDateString()}</span>}
                         </div>
                         <div className="pantry-item-actions">
+                            <div className="adjust-btns">
+                                <button className="btn btn-secondary btn-sm" onClick={() => handleAdjust(item, -1)}>−</button>
+                                <button className="btn btn-secondary btn-sm" onClick={() => handleAdjust(item, 1)}>+</button>
+                            </div>
                             <button className="btn btn-secondary btn-sm" onClick={() => startEdit(item)}>Edit</button>
                             <button className="btn btn-danger btn-sm" onClick={() => handleDelete(item._id)}>Delete</button>
                         </div>

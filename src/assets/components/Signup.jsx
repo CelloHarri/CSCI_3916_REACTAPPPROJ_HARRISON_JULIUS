@@ -21,6 +21,7 @@ export default function Signup() {
     return (
         <div className="page">
             <div className="card">
+                <title>Pantry Signup</title>
                 <h2>Sign Up</h2>
                 {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSubmit}>

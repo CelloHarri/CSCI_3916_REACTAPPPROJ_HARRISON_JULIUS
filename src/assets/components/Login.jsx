@@ -23,6 +23,7 @@ export default function Login() {
     return (
         <div className="page">
             <div className="card">
+                <title>Pantry Login</title>
                 <h2>Login</h2>
                 {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSubmit}>

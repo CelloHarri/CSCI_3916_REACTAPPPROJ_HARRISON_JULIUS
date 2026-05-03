@@ -201,6 +201,7 @@ select:focus {
 .pantry-item-actions {
     display: flex;
     gap: 0.5rem;
+    margin-left: 1rem;
 }
 
 .pantry-item-img {
@@ -248,4 +249,48 @@ select:focus {
 .checkbox-label input[type="checkbox"] {
     width: auto;
     accent-color: var(--accent);
+}
+
+/* ── Search Bar ─────────────────────────────────────────── */
+.search-bar {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+    box-sizing: border-box;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+/* ── Increment / Decrement Buttons ──────────────────────── */
+.adjust-btns {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.1rem 0.4rem;
+}
+
+.adjust-btns span {
+    min-width: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-h);
+    font-size: 0.9rem;
+}
+
+.adjust-btns .btn {
+    padding: 0.15rem 0.5rem;
+    font-size: 1rem;
+    line-height: 1;
+    background: transparent;
+    border: none;
 }
