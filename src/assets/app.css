@@ -236,6 +236,19 @@ select:focus {
     margin-left: 0.5rem;
 }
 
+/* ── Date label ─────────────────────────────────────────── */
+.date-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--text-muted, #888);
+}
+
+.date-label input[type="date"] {
+    width: 100%;
+}
+
 /* ── Checkbox label ─────────────────────────────────────── */
 .checkbox-label {
     display: flex;

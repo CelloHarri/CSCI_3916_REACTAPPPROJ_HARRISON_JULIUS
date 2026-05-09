@@ -120,10 +120,12 @@ export default function Pantry() {
                             onChange={e => setForm({ ...form, amount: e.target.value })} />
                         <select value={form.quantity} onChange={e => setForm({ ...form, quantity: e.target.value })}>
                             <option value="">-- Unit --</option>
-                            {['lbs', 'grams', 'oz', 'count', 'kilograms'].map(u => <option key={u}>{u}</option>)}
+                            {['count', 'oz', 'lbs', 'milligrams', 'grams', 'kilograms', 'milliliters', 'liters'].map(u => <option key={u}>{u}</option>)}
                         </select>
-                        <input placeholder="Expiration Date" type="date" value={form.expirationDate}
-                            onChange={e => setForm({ ...form, expirationDate: e.target.value })} />
+                        <label className="date-label">Expiration Date
+                            <input type="date" value={form.expirationDate}
+                                onChange={e => setForm({ ...form, expirationDate: e.target.value })} />
+                        </label>
                         <input placeholder="Image URL" value={form.imageUrl}
                             onChange={e => setForm({ ...form, imageUrl: e.target.value })} />
                         <input placeholder="Low Stock Alert (amount)" type="number" value={form.amountAlert ?? ''}
